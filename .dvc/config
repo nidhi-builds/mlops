@@ -1,0 +1,5 @@
+[core]
+    remote = myremote
+['remote "myremote"']
+    url = s3://mlop-modular-code-dvc-storage/dvcstore
+    region = eu-north-1
