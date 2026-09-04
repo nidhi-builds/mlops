@@ -1,0 +1,123 @@
+schema: '2.0'
+stages:
+  collection:
+    cmd: python src/data_ingestion.py
+    deps:
+    - path: dataset/puf2022.xls
+      hash: md5
+      md5: 58b2e74f50b2a191617036cd4a5eac23
+      size: 2330624
+    - path: src/data_ingestion.py
+      hash: md5
+      md5: 9f9808cada7025e6ff6682b59f4c8f2a
+      size: 1951
+    params:
+      params.yaml:
+        data_ingestion.ingested_data_path: dataset/housing.csv
+        data_ingestion.raw_data_path: dataset/puf2022.xls
+        data_ingestion.sheet_name: PUF2022final
+    outs:
+    - path: dataset/housing.csv
+      hash: md5
+      md5: 9e5d2ed4e355d55e0d7346a1e4e4f1b3
+      size: 597763
+  preprocessing:
+    cmd: python src/data_preprocessing.py
+    deps:
+    - path: dataset/housing.csv
+      hash: md5
+      md5: 9e5d2ed4e355d55e0d7346a1e4e4f1b3
+      size: 597763
+    - path: src/data_preprocessing.py
+      hash: md5
+      md5: 39570ececb80b1822a62d293953b0e7f
+      size: 3568
+    params:
+      params.yaml:
+        data_preprocessing.input_path: dataset/housing.csv
+        data_preprocessing.output_path: data/processed/housing_processed.csv
+        data_preprocessing.price_min_valid: 1000
+        data_preprocessing.sqft_min_valid: 100
+    outs:
+    - path: data/processed/housing_processed.csv
+      hash: md5
+      md5: e39985e67a4b2cce6ee74d52a65968b5
+      size: 168076
+  features:
+    cmd: python src/feature_engg.py
+    deps:
+    - path: data/processed/housing_processed.csv
+      hash: md5
+      md5: e39985e67a4b2cce6ee74d52a65968b5
+      size: 168076
+    - path: src/feature_engg.py
+      hash: md5
+      md5: 6af1e7924d41c501a02a829ee2255153
+      size: 3553
+    params:
+      params.yaml:
+        feature_engineering.input_path: data/processed/housing_processed.csv
+        feature_engineering.random_state: 42
+        feature_engineering.target_column: PRICE
+        feature_engineering.test_path: data/features/test.csv
+        feature_engineering.test_size: 0.2
+        feature_engineering.train_path: data/features/train.csv
+    outs:
+    - path: data/features/test.csv
+      hash: md5
+      md5: 8f0d1387a587d643bbd3568a96849cc1
+      size: 156684
+    - path: data/features/train.csv
+      hash: md5
+      md5: c9290e52a746e936636c172dc6bcbb6b
+      size: 625649
+  model_building:
+    cmd: python src/model_training.py
+    deps:
+    - path: data/features/train.csv
+      hash: md5
+      md5: c9290e52a746e936636c172dc6bcbb6b
+      size: 625649
+    - path: src/model_training.py
+      hash: md5
+      md5: 95d712d2aaa4a68e74c035e6877062dc
+      size: 2719
+    params:
+      params.yaml:
+        model_building.max_depth: 20
+        model_building.min_samples_leaf: 2
+        model_building.min_samples_split: 4
+        model_building.model_path: models/model.pkl
+        model_building.n_estimators: 400
+        model_building.random_state: 42
+        model_building.train_path: data/features/train.csv
+    outs:
+    - path: models/model.pkl
+      hash: md5
+      md5: 7f980dc42ef179169f59ac1669c3ff53
+      size: 47410177
+  model_evaluation:
+    cmd: python src/model_eval.py
+    deps:
+    - path: data/features/test.csv
+      hash: md5
+      md5: 8f0d1387a587d643bbd3568a96849cc1
+      size: 156684
+    - path: models/model.pkl
+      hash: md5
+      md5: 7f980dc42ef179169f59ac1669c3ff53
+      size: 47410177
+    - path: src/model_eval.py
+      hash: md5
+      md5: 510b84cd65cfdd2f112ecbeb436fab17
+      size: 2568
+    params:
+      params.yaml:
+        model_evaluation.metrics_path: metrics/metrics.json
+        model_evaluation.model_path: models/model.pkl
+        model_evaluation.test_path: data/features/test.csv
+    outs:
+    - path: metrics/metrics.json
+      hash: md5
+      md5: be8aacb2793450e3601768b3df072582
+      size: 104

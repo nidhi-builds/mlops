@@ -1,0 +1,63 @@
+name: CI - Pytest
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:   # allows manual trigger from the Actions tab
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          else
+            pip install dvc pandas scikit-learn pyyaml pytest "xlrd>=2.0.1"
+          fi
+
+      # If dataset/puf2022.xls is DVC-tracked (has a .dvc pointer file)
+      # instead of being committed directly to git, pull it from your
+      # remote before `dvc repro` and configure remote credentials as
+      # repo secrets:
+      #
+      # - name: Pull DVC-tracked data
+      #   run: dvc pull
+      #   env:
+      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Run DVC pipeline
+        run: dvc repro
+
+      - name: Run pytest
+        run: pytest test_pipeline.py -v --junitxml=pytest-report.xml
+
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-report
+          path: pytest-report.xml
+
+      - name: Upload DVC metrics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: metrics
+          path: metrics/metrics.json
+          if-no-files-found: ignore

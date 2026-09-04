@@ -1,0 +1,10 @@
+[2026-07-31 10:35:09] model_eval - INFO - Loaded model from models/model.pkl
+[2026-07-31 10:35:09] model_eval - INFO - Reading test data from data/features/test.csv
+[2026-07-31 10:35:09] model_eval - INFO - Evaluation metrics: {'rmse': 31656.669442056907, 'mae': 21608.087474077533, 'r2_score': 0.5919364806268114}
+[2026-07-31 10:35:09] model_eval - INFO - Saved metrics to metrics/metrics.json
+[2026-07-31 10:35:09] model_eval - INFO - Model evaluation stage completed successfully.
+[2026-07-31 10:44:00] model_eval - INFO - Loaded model from models/model.pkl
+[2026-07-31 10:44:00] model_eval - INFO - Reading test data from data/features/test.csv
+[2026-07-31 10:44:00] model_eval - INFO - Evaluation metrics: {'rmse': 32097.011899591063, 'mae': 22050.26290175714, 'r2_score': 0.5805052455098594}
+[2026-07-31 10:44:00] model_eval - INFO - Saved metrics to metrics/metrics.json
+[2026-07-31 10:44:00] model_eval - INFO - Model evaluation stage completed successfully.

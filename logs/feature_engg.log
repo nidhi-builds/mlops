@@ -1,0 +1,6 @@
+[2026-07-31 10:35:03] feature_engg - INFO - Reading preprocessed data from data/processed/housing_processed.csv
+[2026-07-31 10:35:03] feature_engg - INFO - One-hot encoding categorical columns: ['STATUS', 'FINALDEST', 'FOOTINGS', 'LEASE', 'LOCATION', 'REGION', 'PIERS', 'SECURED', 'TITLED', 'SECTIONS', 'BEDROOMS']
+[2026-07-31 10:35:03] feature_engg - INFO - Feature matrix shape after encoding: (4040, 34)
+[2026-07-31 10:35:03] feature_engg - INFO - Train shape: (3232, 34) | Test shape: (808, 34)
+[2026-07-31 10:35:03] feature_engg - INFO - Saved train data to data/features/train.csv and test data to data/features/test.csv
+[2026-07-31 10:35:03] feature_engg - INFO - Feature engineering stage completed successfully.

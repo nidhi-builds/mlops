@@ -1,0 +1,74 @@
+stages:
+  collection:
+    cmd: python src/data_ingestion.py
+    deps:
+      - src/data_ingestion.py
+      - dataset/puf2022.xls
+    params:
+      - data_ingestion.raw_data_path
+      - data_ingestion.sheet_name
+      - data_ingestion.ingested_data_path
+    outs:
+      - dataset/housing.csv
+
+  preprocessing:
+    cmd: python src/data_preprocessing.py
+    deps:
+      - src/data_preprocessing.py
+      - dataset/housing.csv
+    params:
+      - data_preprocessing.input_path
+      - data_preprocessing.output_path
+      - data_preprocessing.price_min_valid
+      - data_preprocessing.sqft_min_valid
+    outs:
+      - data/processed/housing_processed.csv
+
+  features:
+    cmd: python src/feature_engg.py
+    deps:
+      - src/feature_engg.py
+      - data/processed/housing_processed.csv
+    params:
+      - feature_engineering.input_path
+      - feature_engineering.train_path
+      - feature_engineering.test_path
+      - feature_engineering.target_column
+      - feature_engineering.test_size
+      - feature_engineering.random_state
+    outs:
+      - data/features/train.csv
+      - data/features/test.csv
+
+  model_building:
+    cmd: python src/model_training.py
+    deps:
+      - src/model_training.py
+      - data/features/train.csv
+    params:
+      - model_building.train_path
+      - model_building.model_path
+      - model_building.n_estimators
+      - model_building.max_depth
+      - model_building.min_samples_split
+      - model_building.min_samples_leaf
+      - model_building.random_state
+    outs:
+      - models/model.pkl
+
+  model_evaluation:
+    cmd: python src/model_eval.py
+    deps:
+      - src/model_eval.py
+      - models/model.pkl
+      - data/features/test.csv
+    params:
+      - model_evaluation.test_path
+      - model_evaluation.model_path
+      - model_evaluation.metrics_path
+    metrics:
+      - metrics/metrics.json:
+          cache: false
+
+params:
+  - params.yaml

@@ -1,0 +1,32 @@
+data_ingestion:
+  raw_data_path: dataset/puf2022.xls
+  sheet_name: PUF2022final
+  ingested_data_path: dataset/housing.csv
+
+data_preprocessing:
+  input_path: dataset/housing.csv
+  output_path: data/processed/housing_processed.csv
+  price_min_valid: 1000
+  sqft_min_valid: 100
+
+feature_engineering:
+  input_path: data/processed/housing_processed.csv
+  train_path: data/features/train.csv
+  test_path: data/features/test.csv
+  target_column: PRICE
+  test_size: 0.2
+  random_state: 42
+
+model_building:
+  train_path: data/features/train.csv
+  model_path: models/model.pkl
+  n_estimators: 400
+  max_depth: 20
+  min_samples_split: 4
+  min_samples_leaf: 2
+  random_state: 42
+
+model_evaluation:
+  test_path: data/features/test.csv
+  model_path: models/model.pkl
+  metrics_path: metrics/metrics.json

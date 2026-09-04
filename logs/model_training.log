@@ -1,0 +1,10 @@
+[2026-07-31 10:35:06] model_training - INFO - Reading training data from data/features/train.csv
+[2026-07-31 10:35:06] model_training - INFO - Training RandomForestRegressor with params: {'n_estimators': 200, 'max_depth': 12, 'min_samples_split': 4, 'min_samples_leaf': 2, 'random_state': 42}
+[2026-07-31 10:35:07] model_training - INFO - Model training complete.
+[2026-07-31 10:35:07] model_training - INFO - Saved trained model to models/model.pkl
+[2026-07-31 10:35:07] model_training - INFO - Model training stage completed successfully.
+[2026-07-31 10:43:55] model_training - INFO - Reading training data from data/features/train.csv
+[2026-07-31 10:43:55] model_training - INFO - Training RandomForestRegressor with params: {'n_estimators': 400, 'max_depth': 20, 'min_samples_split': 4, 'min_samples_leaf': 2, 'random_state': 42}
+[2026-07-31 10:43:57] model_training - INFO - Model training complete.
+[2026-07-31 10:43:57] model_training - INFO - Saved trained model to models/model.pkl
+[2026-07-31 10:43:57] model_training - INFO - Model training stage completed successfully.

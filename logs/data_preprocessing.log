@@ -1,0 +1,8 @@
+[2026-07-31 10:34:53] data_preprocessing - INFO - Reading data from dataset/housing.csv
+[2026-07-31 10:34:53] data_preprocessing - INFO - Data shape before preprocessing: (7023, 28)
+[2026-07-31 10:34:53] data_preprocessing - INFO - Dropping 14 non-predictive columns: ['jstatus', 'jprice', 'jsqft', 'jbedroom', 'jlease', 'jfinaldest', 'jtitle', 'jsecured', 'jlocation', 'jfootings', 'jpiers', 'WEIGHT', 'WGTADJ', 'CONTROL']
+[2026-07-31 10:34:53] data_preprocessing - INFO - Removed 2518 rows with invalid/sentinel PRICE or SQFT values
+[2026-07-31 10:34:53] data_preprocessing - INFO - Dropping 465 duplicate rows
+[2026-07-31 10:34:53] data_preprocessing - INFO - Data shape after preprocessing: (4040, 14)
+[2026-07-31 10:34:53] data_preprocessing - INFO - Saved preprocessed data to data/processed/housing_processed.csv
+[2026-07-31 10:34:53] data_preprocessing - INFO - Data preprocessing stage completed successfully.

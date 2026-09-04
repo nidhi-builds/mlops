@@ -1,0 +1,20 @@
+cd Desktop
+cd mlop_modular_code
+python -m venv mlops
+mlops\Scripts\activate
+pip install dvc
+dvc dag
+dvc exp run
+git init 
+pip install git
+git
+winget install --id Git.Git -e
+git
+dvc exp run
+pip install pandas
+pip install scikit-learn
+dvc exp run
+pip install "xlrd>=2.0.1"
+dvc exp run
+dvc exp show --no-pager
+doskey /history > commands.txt
