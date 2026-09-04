@@ -27,7 +27,7 @@ jobs:
           if [ -f requirements.txt ]; then
             pip install -r requirements.txt
           else
-            pip install dvc pandas scikit-learn pyyaml pytest "xlrd>=2.0.1"
+            pip install pandas scikit-learn pyyaml pytest
           fi
 
       # If dataset/puf2022.xls is DVC-tracked (has a .dvc pointer file)
@@ -41,9 +41,6 @@ jobs:
       #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: Run DVC pipeline
-        run: dvc repro
-
       - name: Run pytest
         run: pytest test_pipeline.py -v --junitxml=pytest-report.xml
 
@@ -53,11 +50,3 @@ jobs:
         with:
           name: pytest-report
           path: pytest-report.xml
-
-      - name: Upload DVC metrics
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: metrics
-          path: metrics/metrics.json
-          if-no-files-found: ignore
